@@ -15,6 +15,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import Heading from "@/components/heading";
+import { MessageSquare } from "lucide-react";
 
 const formSchema = z.object({
 	message: z.string().min(1, {
@@ -39,6 +41,13 @@ const ConversationPage = () => {
 
 	return (
 		<div>
+			<Heading
+				title="Conversation"
+				description="Our most advanced conversation model."
+				icon={MessageSquare}
+				iconColor="text-violet-500"
+				bgColor="bg-violet-500/10"
+			/>
 			<div className="px-4 lg:px-8">
 				<Form {...form}>
 					<form
