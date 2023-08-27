@@ -41,24 +41,39 @@ const ConversationPage = () => {
 		<div>
 			<div className="px-4 lg:px-8">
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="
+                            rounded-lg 
+                            border 
+                            w-full 
+                            p-4 
+                            px-3 
+                            md:px-6 
+                            focus-within:shadow-sm
+                            grid
+                            grid-cols-12
+                            gap-2
+                        "
+					>
 						<FormField
 							control={form.control}
 							name="message"
 							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Username</FormLabel>
-									<FormControl>
-										<Input placeholder="Message..." {...field} />
+								<FormItem className="col-span-12 lg:col-span-10">
+									<FormControl className="m-0 p-0">
+										<Input
+											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+											placeholder="How far is the moon from the earth?"
+											{...field}
+										/>
 									</FormControl>
-									<FormDescription>
-										This is your public display name.
-									</FormDescription>
-									<FormMessage />
 								</FormItem>
 							)}
 						/>
-						<Button type="submit">Submit</Button>
+						<Button className="col-span-12 lg:col-span-2 w-full" type="submit">
+							Submit
+						</Button>
 					</form>
 				</Form>
 			</div>
