@@ -1,22 +1,16 @@
 "use client";
 
 import * as z from "zod";
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Heading from "@/components/heading";
 import { MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
 	message: z.string().min(1, {
@@ -25,7 +19,8 @@ const formSchema = z.object({
 });
 
 const ConversationPage = () => {
-	const [messages, setMessages] = useState<string[]>([]);
+	const router = useRouter();
+	const [messages, setMessages] = useState<any[]>([]);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -34,9 +29,21 @@ const ConversationPage = () => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		setMessages([...messages, values.message]);
-		console.log(values);
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			const userMessage = { role: "user", content: values.message };
+			const newMessages = [...messages, userMessage];
+			const response = await axios.post("/api/conversation", {
+				messages: newMessages,
+			});
+
+			setMessages((current) => [...current, userMessage, response.data]);
+			form.reset();
+		} catch (error: any) {
+			console.log(error);
+		} finally {
+			router.refresh();
+		}
 	};
 
 	return (
@@ -90,10 +97,10 @@ const ConversationPage = () => {
 				<div className="flex flex-col-reverse gap-y-4">
 					{messages.map((message) => (
 						<div
-							key={message}
+							key={message.content}
 							className="p-8 w-full flex items-start gap-x-8 rounded-lg"
 						>
-							<p className="text-sm">{message}</p>
+							<p className="text-sm">{message.content}</p>
 						</div>
 					))}
 				</div>

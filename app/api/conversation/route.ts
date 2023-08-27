@@ -8,6 +8,7 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
 	try {
+		console.log("called api");
 		const { userId } = auth();
 		const body = await req.json();
 		const { messages } = body;
@@ -22,8 +23,10 @@ export async function POST(req: Request) {
 
 		const response = await openai.chat.completions.create({
 			model: "gpt-3.5-turbo",
-			messages: messages,
+			messages: [{ role: "user", content: "Hello!" }],
 		});
+		console.log(typeof response);
+		console.log(response);
 		console.log(response.choices[0].message);
 		return NextResponse.json(response.choices[0].message);
 	} catch (error) {
