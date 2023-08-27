@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
+import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -9,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Heading from "@/components/heading";
-import { ImageIcon } from "lucide-react";
+import { Download, ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Loading } from "@/components/loading";
 import { Empty } from "@/components/empty";
@@ -21,6 +22,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Card, CardFooter } from "@/components/ui/card";
 
 const ConversationPage = () => {
 	const router = useRouter();
@@ -159,8 +161,6 @@ const ConversationPage = () => {
 						</Button>
 					</form>
 				</Form>
-			</div>
-			<div className="space-y-4 mt-4">
 				{isLoading && (
 					<div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
 						<Loading />
@@ -169,7 +169,25 @@ const ConversationPage = () => {
 				{photos.length === 0 && !isLoading && (
 					<Empty label="No images generated." />
 				)}
-				<div className="flex flex-col-reverse gap-y-4"></div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
+					{photos.map((src) => (
+						<Card key={src} className="rounded-lg overflow-hidden">
+							<div className="relative aspect-square">
+								<Image fill alt="Generated" src={src} />
+							</div>
+							<CardFooter className="p-2">
+								<Button
+									onClick={() => window.open(src)}
+									variant="secondary"
+									className="w-full"
+								>
+									<Download className="h-4 w-4 mr-2" />
+									Download
+								</Button>
+							</CardFooter>
+						</Card>
+					))}
+				</div>
 			</div>
 		</div>
 	);
