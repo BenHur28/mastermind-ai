@@ -11,6 +11,8 @@ import { useState } from "react";
 import Heading from "@/components/heading";
 import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Loading } from "@/components/loading";
+import { Empty } from "@/components/empty";
 
 const formSchema = z.object({
 	message: z.string().min(1, {
@@ -104,10 +106,12 @@ const ConversationPage = () => {
 			<div className="space-y-4 mt-4">
 				{isLoading && (
 					<div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
-						Loading goes here
+						<Loading />
 					</div>
 				)}
-				{messages.length === 0 && !isLoading && <p>empty logo goes here</p>}
+				{messages.length === 0 && !isLoading && (
+					<Empty label="No conversation started." />
+				)}
 				<div className="flex flex-col-reverse gap-y-4">
 					{messages.map((message) => (
 						<div
