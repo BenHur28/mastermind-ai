@@ -4,7 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard } from "lucide-react";
+import {
+	Code,
+	ImageIcon,
+	LayoutDashboard,
+	MessageSquare,
+	Music,
+	Settings,
+	VideoIcon,
+} from "lucide-react";
 
 const monteserat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -14,6 +22,41 @@ const routes = [
 		icon: LayoutDashboard,
 		href: "/dashboard",
 		color: "text-sky-500",
+	},
+	{
+		label: "Conversation",
+		icon: MessageSquare,
+		href: "/conversation",
+		color: "text-violet-500",
+	},
+	{
+		label: "Generate Image",
+		icon: ImageIcon,
+		href: "/image",
+		color: "text-pink-500",
+	},
+	{
+		label: "Generate Video",
+		icon: VideoIcon,
+		href: "/video",
+		color: "text-orange-500",
+	},
+	{
+		label: "Generate Music",
+		icon: Music,
+		href: "/music",
+		color: "text-emerald-500",
+	},
+	{
+		label: "Generate Code",
+		icon: Code,
+		href: "/code",
+		color: "text-green-500",
+	},
+	{
+		label: "Settings",
+		icon: Settings,
+		href: "/settings",
 	},
 ];
 
