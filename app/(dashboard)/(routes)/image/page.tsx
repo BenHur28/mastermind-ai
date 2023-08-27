@@ -1,87 +1,115 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import {
-	ArrowRight,
-	Code,
-	ImageIcon,
-	MessageSquare,
-	Music,
-	VideoIcon,
-} from "lucide-react";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import Heading from "@/components/heading";
+import { ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Loading } from "@/components/loading";
+import { Empty } from "@/components/empty";
+import { formSchema, amountOptions, resolutionOptions } from "./data";
 
-const tools = [
-	{
-		label: "Conversation",
-		icon: MessageSquare,
-		color: "text-violet-500",
-		bgColor: "bg-violet-500/10",
-		href: "/conversation",
-	},
-	{
-		label: "Generate Image",
-		icon: ImageIcon,
-		color: "text-pink-500",
-		bgColor: "bg-pink-500/10",
-		href: "/image",
-	},
-	{
-		label: "Generate Music",
-		icon: Music,
-		color: "text-emerald-500",
-		bgColor: "bg-emerald-500/10",
-		href: "/music",
-	},
-	{
-		label: "Generate Video",
-		icon: VideoIcon,
-		color: "text-orange-500",
-		bgColor: "bg-orange-500/10",
-		href: "/video",
-	},
-	{
-		label: "Generate Code",
-		icon: Code,
-		color: "text-green-500",
-		bgColor: "bg-green-500/10",
-		href: "/code",
-	},
-];
-
-const DashboardPage = () => {
+const ConversationPage = () => {
 	const router = useRouter();
+	const [messages, setMessages] = useState<any[]>([]);
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			prompt: "",
+		},
+	});
+
+	const isLoading = form.formState.isSubmitting;
+
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			const userMessage = { role: "user", content: values.prompt };
+			const newMessages = [...messages, userMessage];
+			const response = await axios.post("/api/image", {
+				messages: newMessages,
+			});
+
+			setMessages((current) => [...current, userMessage, response.data]);
+			form.reset();
+		} catch (error: any) {
+			console.log(error);
+		} finally {
+			router.refresh();
+		}
+	};
 
 	return (
 		<div>
-			<div className="mb-8 space-y-4">
-				<h2 className="text-2xl md:text-4xl font-bold text-center">
-					Explore the power of AI
-				</h2>
-				<p className="text-muted-foreground font-light text-sm md:text-lg text-center">
-					Experience the power of AI - with the following:
-				</p>
-			</div>
-			<div className="px-4 md:px-20 lg:px-32 space-y-4">
-				{tools.map((tool) => (
-					<Card
-						onClick={() => router.push(tool.href)}
-						key={tool.href}
-						className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer"
+			<Heading
+				title="Conversation"
+				description="Our most advanced conversation model."
+				icon={ImageIcon}
+				iconColor="text-pink-500"
+				bgColor="bg-pink-500/10"
+			/>
+			<div className="px-4 lg:px-8">
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="
+                            rounded-lg 
+                            border 
+                            w-full 
+                            p-4 
+                            px-3 
+                            md:px-6 
+                            focus-within:shadow-sm
+                            grid
+                            grid-cols-12
+                            gap-2
+                        "
 					>
-						<div className="flex items-center gap-x-4">
-							<div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-								<tool.icon className={cn("w-8 h-8", tool.color)} />
-							</div>
-							<div className="font-semibold">{tool.label}</div>
-						</div>
-						<ArrowRight className="w-5 h-5" />
-					</Card>
-				))}
+						<FormField
+							control={form.control}
+							name="prompt"
+							render={({ field }) => (
+								<FormItem className="col-span-12 lg:col-span-10">
+									<FormControl className="m-0 p-0">
+										<Input
+											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+											disabled={isLoading}
+											placeholder="How far is the moon from the earth?"
+											{...field}
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+						<Button
+							className="col-span-12 lg:col-span-2 w-full"
+							type="submit"
+							disabled={isLoading}
+							size="icon"
+						>
+							Submit
+						</Button>
+					</form>
+				</Form>
+			</div>
+			<div className="space-y-4 mt-4">
+				{isLoading && (
+					<div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+						<Loading />
+					</div>
+				)}
+				{messages.length === 0 && !isLoading && (
+					<Empty label="No conversation started." />
+				)}
+				<div className="flex flex-col-reverse gap-y-4"></div>
 			</div>
 		</div>
 	);
 };
 
-export default DashboardPage;
+export default ConversationPage;
