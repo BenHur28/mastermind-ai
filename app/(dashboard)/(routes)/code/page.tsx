@@ -89,7 +89,7 @@ const CodePage = () => {
 										<Input
 											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
 											disabled={isLoading}
-											placeholder="How to create a simple website using React?"
+											placeholder="How do I create a simple website using React?"
 											{...field}
 										/>
 									</FormControl>

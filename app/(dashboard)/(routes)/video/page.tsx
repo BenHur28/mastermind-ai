@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Heading from "@/components/heading";
-import { Music } from "lucide-react";
+import { Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Loading } from "@/components/loading";
 import { Empty } from "@/components/empty";
@@ -22,7 +22,7 @@ const formSchema = z.object({
 
 const VideoPage = () => {
 	const router = useRouter();
-	const [music, setMusic] = useState<string>();
+	const [video, setVideo] = useState<string>();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -35,11 +35,11 @@ const VideoPage = () => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			setMusic(undefined);
-			const response = await axios.post("/api/music", values);
+			setVideo(undefined);
+			const response = await axios.post("/api/video", values);
 			console.log(response);
 
-			setMusic(response.data.audio);
+			setVideo(response.data[0]);
 			form.reset();
 		} catch (error: any) {
 			console.log(error);
@@ -51,11 +51,11 @@ const VideoPage = () => {
 	return (
 		<div>
 			<Heading
-				title="Generate music"
-				description="Turn your prompt into music."
-				icon={Music}
-				iconColor="text-emerald-500"
-				bgColor="bg-emerald-500/10"
+				title="Generate videos"
+				description="Turn your prompt into videos."
+				icon={Video}
+				iconColor="text-orange-500"
+				bgColor="bg-orange-500/10"
 			/>
 			<div className="px-4 lg:px-8">
 				<Form {...form}>
@@ -83,7 +83,7 @@ const VideoPage = () => {
 										<Input
 											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
 											disabled={isLoading}
-											placeholder="Piano solo"
+											placeholder="Dogs doing tricks"
 											{...field}
 										/>
 									</FormControl>
@@ -105,11 +105,14 @@ const VideoPage = () => {
 						<Loading />
 					</div>
 				)}
-				{!music && !isLoading && <Empty label="No music generated." />}
-				{music && (
-					<audio controls className="w-full mt-8">
-						<source src={music} />
-					</audio>
+				{!video && !isLoading && <Empty label="No video generated." />}
+				{video && (
+					<video
+						controls
+						className="w-full aspect-video mt-8 rounded-lg border bg-black"
+					>
+						<source src={video} />
+					</video>
 				)}
 			</div>
 		</div>
