@@ -1,5 +1,6 @@
 "use client";
 
+import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,15 +14,24 @@ import { useRouter } from "next/navigation";
 import { Loading } from "@/components/loading";
 import { Empty } from "@/components/empty";
 import { formSchema, amountOptions, resolutionOptions } from "./data";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 const ConversationPage = () => {
 	const router = useRouter();
-	const [messages, setMessages] = useState<any[]>([]);
+	const [photos, setPhotos] = useState<string[]>([]);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			prompt: "",
+			amount: "1",
+			resolution: "512x512",
 		},
 	});
 
@@ -29,13 +39,12 @@ const ConversationPage = () => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			const userMessage = { role: "user", content: values.prompt };
-			const newMessages = [...messages, userMessage];
-			const response = await axios.post("/api/image", {
-				messages: newMessages,
-			});
+			setPhotos([]);
 
-			setMessages((current) => [...current, userMessage, response.data]);
+			const response = await axios.post("/api/image", values);
+			const urls = response.data.map((image: { url: string }) => image.url);
+
+			setPhotos(urls);
 			form.reset();
 		} catch (error: any) {
 			console.log(error);
@@ -47,8 +56,8 @@ const ConversationPage = () => {
 	return (
 		<div>
 			<Heading
-				title="Conversation"
-				description="Our most advanced conversation model."
+				title="Generate Images"
+				description="Turn your prompt into an image."
 				icon={ImageIcon}
 				iconColor="text-pink-500"
 				bgColor="bg-pink-500/10"
@@ -79,10 +88,64 @@ const ConversationPage = () => {
 										<Input
 											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
 											disabled={isLoading}
-											placeholder="How far is the moon from the earth?"
+											placeholder="Picture of a cute cat"
 											{...field}
 										/>
 									</FormControl>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="amount"
+							render={({ field }) => (
+								<FormItem className="col-span-12 lg:col-span-2">
+									<Select
+										disabled={isLoading}
+										onValueChange={field.onChange}
+										value={field.value}
+										defaultValue={field.value}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue defaultValue={field.value} />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{amountOptions.map((option) => (
+												<SelectItem key={option.value} value={option.value}>
+													{option.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="resolution"
+							render={({ field }) => (
+								<FormItem className="col-span-12 lg:col-span-2">
+									<Select
+										disabled={isLoading}
+										onValueChange={field.onChange}
+										value={field.value}
+										defaultValue={field.value}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue defaultValue={field.value} />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{resolutionOptions.map((option) => (
+												<SelectItem key={option.value} value={option.value}>
+													{option.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</FormItem>
 							)}
 						/>
@@ -103,8 +166,8 @@ const ConversationPage = () => {
 						<Loading />
 					</div>
 				)}
-				{messages.length === 0 && !isLoading && (
-					<Empty label="No conversation started." />
+				{photos.length === 0 && !isLoading && (
+					<Empty label="No images generated." />
 				)}
 				<div className="flex flex-col-reverse gap-y-4"></div>
 			</div>
