@@ -1,4 +1,3 @@
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 const LandingPage = () => {
@@ -12,9 +11,6 @@ const LandingPage = () => {
 				<Link href="/sign-up" className="bg-black text-white">
 					Sign Up
 				</Link>
-			</div>
-			<div>
-				<UserButton afterSignOutUrl="/" />
 			</div>
 		</div>
 	);
