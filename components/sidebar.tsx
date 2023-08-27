@@ -37,17 +37,18 @@ const routes = [
 		color: "text-pink-500",
 	},
 	{
-		label: "Generate Video",
-		icon: VideoIcon,
-		href: "/video",
-		color: "text-orange-500",
-	},
-	{
 		label: "Generate Music",
 		icon: Music,
 		href: "/music",
 		color: "text-emerald-500",
 	},
+	{
+		label: "Generate Video",
+		icon: VideoIcon,
+		href: "/video",
+		color: "text-orange-500",
+	},
+
 	{
 		label: "Generate Code",
 		icon: Code,
