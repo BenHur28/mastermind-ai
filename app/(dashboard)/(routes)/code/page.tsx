@@ -89,7 +89,7 @@ const ConversationPage = () => {
 										<Input
 											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
 											disabled={isLoading}
-											placeholder="How to create a basic website?"
+											placeholder="How to create a simple website using React?"
 											{...field}
 										/>
 									</FormControl>
@@ -114,7 +114,7 @@ const ConversationPage = () => {
 					</div>
 				)}
 				{messages.length === 0 && !isLoading && (
-					<Empty label="No conversation started." />
+					<Empty label="No code generated." />
 				)}
 				<div className="flex flex-col-reverse gap-y-4">
 					{messages.map((message) => (
