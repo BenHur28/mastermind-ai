@@ -13,6 +13,9 @@ import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Loading } from "@/components/loading";
 import { Empty } from "@/components/empty";
+import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/user-avatar";
+import { BotAvatar } from "@/components/bot-avatar";
 
 const formSchema = z.object({
 	message: z.string().min(1, {
@@ -116,8 +119,14 @@ const ConversationPage = () => {
 					{messages.map((message) => (
 						<div
 							key={message.content}
-							className="p-8 w-full flex items-start gap-x-8 rounded-lg"
+							className={cn(
+								"p-8 w-full flex items-start gap-x-8 rounded-lg",
+								message.role === "user"
+									? "bg-white border border-black-/10"
+									: "bg-muted"
+							)}
 						>
+							{message.role === "user" ? <UserAvatar /> : <BotAvatar />}
 							<p className="text-sm">{message.content}</p>
 						</div>
 					))}
