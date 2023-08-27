@@ -57,7 +57,7 @@ const ConversationPage = () => {
 		<div>
 			<Heading
 				title="Generate Code"
-				description="Our most advanced code generator."
+				description="Generate code using descriptive text."
 				icon={Code}
 				iconColor="text-green-500"
 				bgColor="bg-green-500/10"
@@ -88,7 +88,7 @@ const ConversationPage = () => {
 										<Input
 											className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
 											disabled={isLoading}
-											placeholder="How far is the moon from the earth?"
+											placeholder="How to create a basic website?"
 											{...field}
 										/>
 									</FormControl>
