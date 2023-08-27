@@ -18,8 +18,8 @@ import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 
 const formSchema = z.object({
-	message: z.string().min(1, {
-		message: "Message is required",
+	prompt: z.string().min(1, {
+		message: "Prompt is required",
 	}),
 });
 
@@ -30,7 +30,7 @@ const ConversationPage = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			message: "",
+			prompt: "",
 		},
 	});
 
@@ -38,7 +38,7 @@ const ConversationPage = () => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			const userMessage = { role: "user", content: values.message };
+			const userMessage = { role: "user", content: values.prompt };
 			const newMessages = [...messages, userMessage];
 			const response = await axios.post("/api/conversation", {
 				messages: newMessages,
@@ -81,7 +81,7 @@ const ConversationPage = () => {
 					>
 						<FormField
 							control={form.control}
-							name="message"
+							name="prompt"
 							render={({ field }) => (
 								<FormItem className="col-span-12 lg:col-span-10">
 									<FormControl className="m-0 p-0">
