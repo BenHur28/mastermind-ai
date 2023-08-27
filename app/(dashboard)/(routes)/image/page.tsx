@@ -182,7 +182,7 @@ const ConversationPage = () => {
 									className="w-full"
 								>
 									<Download className="h-4 w-4 mr-2" />
-									Download
+									Open image in new tab
 								</Button>
 							</CardFooter>
 						</Card>
