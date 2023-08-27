@@ -20,7 +20,7 @@ const formSchema = z.object({
 	}),
 });
 
-const MusicPage = () => {
+const VideoPage = () => {
 	const router = useRouter();
 	const [music, setMusic] = useState<string>();
 
@@ -116,4 +116,4 @@ const MusicPage = () => {
 	);
 };
 
-export default MusicPage;
+export default VideoPage;

@@ -24,7 +24,7 @@ const formSchema = z.object({
 	}),
 });
 
-const ConversationPage = () => {
+const CodePage = () => {
 	const router = useRouter();
 	const [messages, setMessages] = useState<any[]>([]);
 
@@ -151,4 +151,4 @@ const ConversationPage = () => {
 	);
 };
 
-export default ConversationPage;
+export default CodePage;

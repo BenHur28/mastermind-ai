@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardFooter } from "@/components/ui/card";
 
-const ConversationPage = () => {
+const ImagePage = () => {
 	const router = useRouter();
 	const [photos, setPhotos] = useState<string[]>([]);
 
@@ -193,4 +193,4 @@ const ConversationPage = () => {
 	);
 };
 
-export default ConversationPage;
+export default ImagePage;
