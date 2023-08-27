@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const formSchema = z.object({
 	message: z.string().min(1, {
@@ -22,6 +23,8 @@ const formSchema = z.object({
 });
 
 const ConversationPage = () => {
+	const [messages, setMessages] = useState<string[]>([]);
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -30,6 +33,7 @@ const ConversationPage = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		setMessages([...messages, values.message]);
 		console.log(values);
 	};
 
@@ -57,6 +61,18 @@ const ConversationPage = () => {
 						<Button type="submit">Submit</Button>
 					</form>
 				</Form>
+			</div>
+			<div className="space-y-4 mt-4">
+				<div className="flex flex-col-reverse gap-y-4">
+					{messages.map((message) => (
+						<div
+							key={message}
+							className="p-8 w-full flex items-start gap-x-8 rounded-lg"
+						>
+							<p className="text-sm">{message}</p>
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 	);
