@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const LandingPage = () => {
 	return (
-		<div>
+		<div data-testid="landing">
 			<p>LandingPage - You are not signed in ...probably...</p>
 			<div>
 				<Link href="/sign-in" className="bg-black text-white">
