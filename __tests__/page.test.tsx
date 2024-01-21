@@ -3,6 +3,14 @@ import { render, screen } from "@testing-library/react";
 import LandingPage from "@/app/(landing)/page";
 import VideoPage from "@/app/(dashboard)/(routes)/video/page";
 
+jest.mock("next/navigation", () => ({
+	useRouter() {
+		return {
+			prefetch: () => null,
+		};
+	},
+}));
+
 describe("Landing Page", () => {
 	it("renders the langing page", () => {
 		render(<LandingPage />);
