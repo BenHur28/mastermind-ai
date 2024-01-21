@@ -49,7 +49,7 @@ const VideoPage = () => {
 	};
 
 	return (
-		<div>
+		<div data-testid="video page">
 			<Heading
 				title="Generate videos"
 				description="Turn your prompt into videos."
