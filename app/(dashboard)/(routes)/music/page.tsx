@@ -49,7 +49,7 @@ const MusicPage = () => {
 	};
 
 	return (
-		<div>
+		<div data-testid="music page">
 			<Heading
 				title="Generate music"
 				description="Turn your prompt into music."
