@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import LandingPage from "@/app/(landing)/page";
 import VideoPage from "@/app/(dashboard)/(routes)/video/page";
 import MusicPage from "@/app/(dashboard)/(routes)/music/page";
+import ImagePage from "@/app/(dashboard)/(routes)/image/page";
 
 jest.mock("next/navigation", () => ({
 	useRouter() {
@@ -37,6 +38,16 @@ describe("Music Page", () => {
 		render(<MusicPage />);
 
 		const div = screen.getByTestId("music page");
+
+		expect(div).toBeInTheDocument();
+	});
+});
+
+describe("Image Page", () => {
+	it("renders the image page", () => {
+		render(<ImagePage />);
+
+		const div = screen.getByTestId("image page");
 
 		expect(div).toBeInTheDocument();
 	});

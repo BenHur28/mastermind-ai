@@ -56,7 +56,7 @@ const ImagePage = () => {
 	};
 
 	return (
-		<div>
+		<div data-testid="image page">
 			<Heading
 				title="Generate Images"
 				description="Turn your prompt into an image."
