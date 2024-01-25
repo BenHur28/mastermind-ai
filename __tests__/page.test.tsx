@@ -52,3 +52,13 @@ describe("Image Page", () => {
 		expect(div).toBeInTheDocument();
 	});
 });
+
+describe("Conversation Page", () => {
+	it("renders the conversation page", () => {
+		render(<ImagePage />);
+
+		const div = screen.getByTestId("conversation page");
+
+		expect(div).toBeInTheDocument();
+	});
+});

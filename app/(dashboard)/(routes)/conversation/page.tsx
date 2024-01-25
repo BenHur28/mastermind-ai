@@ -54,7 +54,7 @@ const ConversationPage = () => {
 	};
 
 	return (
-		<div>
+		<div data-testid="conversation page">
 			<Heading
 				title="Conversation"
 				description="Our most advanced conversation model."
