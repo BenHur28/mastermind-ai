@@ -4,6 +4,7 @@ import LandingPage from "@/app/(landing)/page";
 import VideoPage from "@/app/(dashboard)/(routes)/video/page";
 import MusicPage from "@/app/(dashboard)/(routes)/music/page";
 import ImagePage from "@/app/(dashboard)/(routes)/image/page";
+import CodePage from "@/app/(dashboard)/(routes)/code/page";
 
 jest.mock("next/navigation", () => ({
 	useRouter() {
@@ -58,6 +59,16 @@ describe("Conversation Page", () => {
 		render(<ImagePage />);
 
 		const div = screen.getByTestId("conversation page");
+
+		expect(div).toBeInTheDocument();
+	});
+});
+
+describe("Code Page", () => {
+	it("renders the code page", () => {
+		render(<CodePage />);
+
+		const div = screen.getByTestId("code page");
 
 		expect(div).toBeInTheDocument();
 	});

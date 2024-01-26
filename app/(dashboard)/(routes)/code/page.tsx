@@ -55,7 +55,7 @@ const CodePage = () => {
 	};
 
 	return (
-		<div>
+		<div data-testid="code page">
 			<Heading
 				title="Generate Code"
 				description="Generate code using descriptive text."
